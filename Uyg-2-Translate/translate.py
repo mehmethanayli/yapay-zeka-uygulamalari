@@ -1,70 +1,87 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Mar 15 13:45:44 2022
+Created on Tue Mar 15 17:43:03 2022
 
 @author: MCH
 """
-
-""" Google Translate Paketi Yüklenmelidir."""
+"""Google Translate Apı"""
 #pip install googletrans==3.1.0a0
 
-
-#Gerekli paketler eklenir.
 import googletrans
 from googletrans import Translator
 import pandas as pd
 
-#Desteklenen Dil Sayısı
+#Kaç dil arasında çalışabileceğini gösterir.
 #print(len(googletrans.LANGUAGES))
 
-#Desteklenen Diller
+#Dil kısaltmaları ve isimlerini verir.
 #print(googletrans.LANGUAGES)
+
+#Önce dil sonra kısaltma ismini verir.
+#print(googletrans.LANGCODES)
 
 
 translator=Translator()
-sentence="Olmak ya da olmamak"
+sentence="Olmak ya da olmamak.Gül verince mutluluktan güler."
 example=translator.translate(sentence)
 
+#Nesne tipini verir.
+print(type(example))
+
+#Kaynak cümle dilini verir.
 print(example.src)
 
+#Hedef cümle dilini verir.
 print(example.dest)
 
+#Orijinal cümleyi verir.
 print(example.origin)
 
+#Çevirilmiş cümleyi verir.
 print(example.text)
 
 
-sentence2="To be or not to be"
+
+print("******************")
+sentence2="To be or not to be. When he gives a rose, he laughs happily."
+
 example2=translator.translate(sentence2, dest="tr")
+
 print(example2.src)
-
 print(example2.dest)
-
 print(example2.origin)
-
 print(example2.text)
 
+print("******************")
 
-print("**************")
+word_tr=["elma", "armut", "araba","mikrofon","kapı","lastik", "bilgisayar"]
 
-words_tr=["elma","armut","kivi","muz"]
+df=pd.DataFrame(columns=["Türkçe","İngilizce","Fransızca","Rusça"])
 
-df=pd.DataFrame(columns=["Türkçe","İngilizce","Fransızca","Almanca","Rusça"])
-
-for word in words_tr:
+#print(df)
+for word in word_tr:
     df=df.append({
         "Türkçe": word,
-        "İngilizce":translator.translate(word, dest="en").text,
-        "Fransızca":translator.translate(word, dest="fr").text,
-        "Almanca": translator.translate(word,dest="de").text,
+        "İngilizce": translator.translate(word, dest="en").text,
+        "Fransızca": translator.translate(word, dest="fr").text,
         "Rusça": translator.translate(word, dest="ru").text
         },ignore_index=True)
+    
+print(df)   
+print("******************")
+ 
+print(df.head(2))
+print("******************")
 
-print(df.head(1))
 print(df.iloc[0])
+print("******************")
 
-print(df[{'Türkçe','İngilizce'}])
-print(df[{'Türkçe','İngilizce'}].values[0])
+print(df[{"Türkçe","İngilizce"}])
+print("******************")
+
+print(df[{"Türkçe","İngilizce"}].values[2])
+
+
 
 
 
